@@ -45,7 +45,7 @@ jobs:
     - name: Build site
       run: npm run build --if-present
       env:
-        BASE_URL: ${{steps.prefix.outputs.prefix}}
+        BASE_URL: "${{ steps.prefix.outputs.prefix }}"
     - name: Deploy
       id: deploy
       uses: dyadyaJora/s3-multibranch-deploy-preview@main
@@ -53,7 +53,7 @@ jobs:
         aws_region: "${{ env.AWS_REGION }}"
         aws_assume_role: "${{ secrets.ASSUME_ROLE }}"
         aws_bucket: "${{ env.BUCKET_NAME }}"
-        prefix: ${{steps.prefix.outputs.prefix}}
+        prefix: ${{ steps.prefix.outputs.prefix }}
         folder: "build"
     - name: Print LAB DOCS_LINK
       run: |
