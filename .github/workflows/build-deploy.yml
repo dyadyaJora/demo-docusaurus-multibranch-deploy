@@ -53,6 +53,7 @@ jobs:
         aws_region: "${{ env.AWS_REGION }}"
         aws_assume_role: "${{ secrets.ASSUME_ROLE }}"
         aws_bucket: "${{ env.BUCKET_NAME }}"
+        prefix: ${{steps.prefix.outputs.prefix}}
         folder: "build"
     - name: Print LAB DOCS_LINK
       run: |
