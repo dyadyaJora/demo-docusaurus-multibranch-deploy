@@ -45,7 +45,7 @@ jobs:
     - name: Build site
       run: npm run build --if-present
       env:
-        BASE_URL: ${{steps.deploy.outputs.prefix}}
+        BASE_URL: ${{steps.prefix.outputs.prefix}}
     - name: Deploy
       id: deploy
       uses: dyadyaJora/s3-multibranch-deploy-preview@main
