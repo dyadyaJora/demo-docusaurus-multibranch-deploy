@@ -9,7 +9,16 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+env:
+  AWS_REGION : "us-east-1"
+  MAX_BRANCH_DEPLOYED: 5
+  MAX_COMMIT_PER_BRANCH_DEPLOYED: 3
+  BUCKET_NAME: "demo-docusaurus-multibranch-deploy"
 
+permissions:
+  id-token: write
+  contents: write
+  discussions: write
 jobs:
   build:
 
@@ -28,3 +37,14 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
+    - name: Deploy
+      id: deploy
+      uses: dyadyaJora/s3-multibranch-deploy-preview@main
+      with:
+        aws_region: "${{ env.AWS_REGION }}"
+        aws_assume_role: "${{ secrets.ASSUME_ROLE }}"
+        aws_bucket: "${{ env.BUCKET_NAME }}"
+        folder: "site"
+    - name: Print LAB DOCS_LINK
+      run: |
+        echo "Docs deploy is available at ${{steps.deploy.outputs.preview_url}}"
