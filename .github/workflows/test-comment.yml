@@ -1,0 +1,31 @@
+
+name: Comment each created pull request
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  id-token: write
+  contents: write
+  discussions: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Post comment to PR
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '✅ Thank you for PR 🚀'
+          })
