@@ -19,6 +19,8 @@ permissions:
   id-token: write
   contents: write
   discussions: write
+  issues: write
+  pull-requests: write
 jobs:
   build:
 
@@ -60,6 +62,7 @@ jobs:
         aws_bucket: "${{ env.BUCKET_NAME }}"
         prefix: ${{ steps.prefix.outputs.prefix }}
         folder: "build"
+        github_token: "${{ secrets.GITHUB_TOKEN }}"
     - name: Print LAB DOCS_LINK
       run: |
         echo "Docs deploy is available at ${{steps.deploy.outputs.preview_url}}"
